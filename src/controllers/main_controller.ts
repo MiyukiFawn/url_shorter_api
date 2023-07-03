@@ -27,8 +27,10 @@ async function get_links(req: Request, res: Response) {
 }
 
 async function get_pages(req: Request, res: Response) {
-  // const nOfRecords = await prisma.link.count();
-  const nOfRecords = 30 / nOfLinks;
+  var nOfRecords = (await prisma.link.count()) / nOfLinks;
+  nOfRecords = Math.ceil(nOfRecords);
+
+  if (nOfRecords === 0) nOfRecords = 1;
 
   var pages: Number[] = [];
 
