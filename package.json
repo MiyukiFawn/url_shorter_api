@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/server.ts",
-    "vercel-build": "npx prisma migrate deploy"
+    "vercel-build": "npx prisma generate && npx prisma migrate deploy"
   },
   "author": "Miyuki Fawn",
   "license": "ISC",
