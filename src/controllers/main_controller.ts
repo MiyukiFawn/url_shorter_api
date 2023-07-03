@@ -14,7 +14,7 @@ const prisma = new PrismaClient();
 
 const nOfLinks = 15;
 
-async function get_links(req: Request, res: Response) {
+export async function get_links(req: Request, res: Response) {
   const { page }: get_links_params_type = validateParams(req.params, get_links_params_schema);
   const skip = nOfLinks * (page ?? 0);
 
@@ -26,7 +26,7 @@ async function get_links(req: Request, res: Response) {
   return res.status(200).json(links);
 }
 
-async function get_pages(req: Request, res: Response) {
+export async function get_pages(req: Request, res: Response) {
   var nOfRecords = (await prisma.link.count()) / nOfLinks;
   nOfRecords = Math.ceil(nOfRecords);
 
@@ -41,7 +41,7 @@ async function get_pages(req: Request, res: Response) {
   return res.status(200).json(pages);
 }
 
-async function get_link(req: Request, res: Response) {
+export async function get_link(req: Request, res: Response) {
   const { shortUrl }: get_link_param_type = validateParams(req.params, get_link_param_schema);
 
   let link: Link | null = await prisma.link.findFirst({
@@ -66,7 +66,7 @@ async function get_link(req: Request, res: Response) {
   res.status(200).json({ link: link.full_url });
 }
 
-async function create_link(req: Request, res: Response) {
+export async function create_link(req: Request, res: Response) {
   const { url, singleAccess }: create_links_params_type = validateParams(req.body, create_links_params_schema);
 
   const shortUrl: string = nanoid(8);
@@ -81,10 +81,3 @@ async function create_link(req: Request, res: Response) {
 
   return res.status(201).json(shortUrl);
 }
-
-export default {
-  get_links,
-  get_link,
-  create_link,
-  get_pages,
-};
