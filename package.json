@@ -4,8 +4,7 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "start": "nodemon src/server.ts",
-    "build": "del build && prettier --write / && tsc"
+    "start": "nodemon src/server.ts"
   },
   "author": "Miyuki Fawn",
   "license": "ISC",
