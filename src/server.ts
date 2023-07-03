@@ -1,5 +1,4 @@
 import "express-async-errors";
-import https from "https";
 import express, { Request, Response, NextFunction } from "express";
 import config from "./config";
 
@@ -10,10 +9,10 @@ import apiErrorHandler from "./middlewares/api_error_handler";
 import ApiError from "./errors/ApiError";
 
 const Debug = Debuger("Routes");
-const router = express();
+const app = express();
 
 /** Debug the request */
-router.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   Debug.log(`METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}]`);
 
   res.on("finish", () => {
@@ -25,11 +24,11 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 /** Parse the request */
-router.use(express.urlencoded({ extended: false }));
-router.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 /** Rules of the API */
-router.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
@@ -40,17 +39,16 @@ router.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-/** Config router */
-router.use("/", routes);
+/** Config app */
+app.use("/", routes);
 
 /** Error Handling */
-router.use((req: Request, res: Response) => {
+app.use((req: Request, res: Response) => {
   throw ApiError.notFound();
 });
-router.use(apiErrorHandler);
+app.use(apiErrorHandler);
 
 /** Create the server */
-const httpServer = https.createServer(router);
-httpServer.listen(config.server.port, () => {
+app.listen(config.server.port, () => {
   Debug.info(`Server running on https://${config.server.hostname}:${config.server.port}`);
 });
