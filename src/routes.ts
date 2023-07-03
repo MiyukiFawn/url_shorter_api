@@ -3,32 +3,17 @@ import Debuger from "debuger";
 /** IMPORT ROUTERS */
 
 import dotenv from "dotenv";
+import main_controller from "controllers/main_controller";
 dotenv.config();
 
 const Debug = Debuger("Routes");
 const router = express.Router();
 
 /** --- ROUTES --- */
-router.get("/", async (req, res) => {
-  Debug.info("MESSAGE");
-  Debug.info("MESSAGE", { type: "object" });
-
-  Debug.warn("MESSAGE");
-  Debug.warn("MESSAGE", { type: "object" });
-
-  Debug.error("MESSAGE");
-  Debug.error("MESSAGE", { type: "object" });
-
-  Debug.debug("MESSAGE");
-  Debug.debug("MESSAGE", { type: "object" });
-
-  Debug.log("MESSAGE");
-  Debug.log("MESSAGE", { type: "object" });
-
-  return res.status(200).json({
-    message: "Hello world :D",
-  });
-});
+router.get("/links/:page?", main_controller.get_links);
+router.get("/pages", main_controller.get_pages);
+router.get("/:shortUrl", main_controller.get_link);
+router.post("/", main_controller.create_link);
 
 /** SAMPLE */
 export = router;

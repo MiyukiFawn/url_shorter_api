@@ -1,5 +1,5 @@
 import "express-async-errors";
-import http from "http";
+import https from "https";
 import express, { Request, Response, NextFunction } from "express";
 import config from "config";
 
@@ -50,7 +50,7 @@ router.use((req: Request, res: Response) => {
 router.use(apiErrorHandler);
 
 /** Create the server */
-const httpServer = http.createServer(router);
+const httpServer = https.createServer(router);
 httpServer.listen(config.server.port, () => {
-  Debug.info(`Server running on http://${config.server.hostname}:${config.server.port}`);
+  Debug.info(`Server running on https://${config.server.hostname}:${config.server.port}`);
 });

@@ -5,28 +5,18 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 // TABLES
 // Table users
-model User {
-  id            Int             @id @default(autoincrement())
-  username      String          @unique @db.VarChar(50)
-  firstName     String          @db.VarChar(60)
-  lastName      String          @db.VarChar(60)
-  email         String          @db.VarChar(345)
-  password      String          @db.MediumText
-  freshe_tokens Refresh_Token[]
-}
-
-model Refresh_Token {
-  id            Int      @id @default(autoincrement())
-  user          User     @relation(fields: [user_id], references: [id])
-  user_id       Int
-  refresh_token String   @db.VarChar(350)
-  valid         Boolean  @default(true)
-  expires_at    Int
-  creation_date DateTime @default(now())
+model Link {
+  id            Int     @id @default(autoincrement())
+  full_url      String
+  short_url     String
+  single_access Boolean
+  access        Int     @default(0)
 }
