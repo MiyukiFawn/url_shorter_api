@@ -1,13 +1,13 @@
 import "express-async-errors";
 import https from "https";
 import express, { Request, Response, NextFunction } from "express";
-import config from "config";
+import config from "./config";
 
-import Debuger from "debuger"
+import Debuger from "./debuger"
 
-import routes from "routes";
-import apiErrorHandler from "middlewares/api_error_handler";
-import ApiError from "error/ApiError";
+import routes from "./routes";
+import apiErrorHandler from "./middlewares/api_error_handler";
+import ApiError from "./errors/ApiError";
 
 const Debug = Debuger("Routes");
 const router = express();

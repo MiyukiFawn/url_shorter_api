@@ -1,9 +1,9 @@
 import express from "express";
-import Debuger from "debuger";
+import Debuger from "./debuger";
 /** IMPORT ROUTERS */
 
 import dotenv from "dotenv";
-import main_controller from "controllers/main_controller";
+import main_controller from "./controllers/main_controller";
 dotenv.config();
 
 const Debug = Debuger("Routes");

@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import Debuger from "debuger";
+import Debuger from "../debuger";
 import { nanoid } from "nanoid";
 
 import { Link, PrismaClient } from "@prisma/client";
-import { get_links_params_schema, get_links_params_type } from "validations/get_links_params";
-import { validateParams } from "helpers/validateSchema";
-import { create_links_params_schema, create_links_params_type } from "validations/create_link_params";
-import { get_link_param_schema, get_link_param_type } from "validations/get_link_params";
-import ApiErrors from "error/ApiError";
+import { get_links_params_schema, get_links_params_type } from "../validations/get_links_params";
+import { validateParams } from "../helpers/validateSchema";
+import { create_links_params_schema, create_links_params_type } from "../validations/create_link_params";
+import { get_link_param_schema, get_link_param_type } from "../validations/get_link_params";
+import ApiErrors from "../errors/ApiError";
 
 const Debug = Debuger("Main Controller");
 const prisma = new PrismaClient();
