@@ -66,7 +66,7 @@ export async function get_link(req: Request, res: Response) {
     }
   });
 
-  res.status(200).json({ link: link.full_url });
+  res.redirect(link.full_url);
 }
 
 export async function create_link(req: Request, res: Response) {
