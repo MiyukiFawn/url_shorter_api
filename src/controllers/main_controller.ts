@@ -21,6 +21,9 @@ export async function get_links(req: Request, res: Response) {
   let links: Link[] = await prisma.link.findMany({
     skip: skip,
     take: nOfLinks,
+    orderBy: {
+      id: "desc",
+    },
   });
 
   return res.status(200).json(links);
@@ -47,7 +50,7 @@ export async function get_link(req: Request, res: Response) {
   let link: Link | null = await prisma.link.findFirst({
     where: {
       short_url: shortUrl,
-    },
+    }
   });
 
   if (!link) throw ApiErrors.notFound("Url not founded");
@@ -60,7 +63,7 @@ export async function get_link(req: Request, res: Response) {
     },
     where: {
       id: link.id,
-    },
+    }
   });
 
   res.status(200).json({ link: link.full_url });
