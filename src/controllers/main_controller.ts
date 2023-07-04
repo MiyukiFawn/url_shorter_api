@@ -54,7 +54,7 @@ export async function get_link(req: Request, res: Response) {
   });
 
   if (!link) throw ApiErrors.notFound("Url not founded");
-  if (link.single_access && link.access > 0) throw ApiErrors.forbidden("This link is no longer available");
+  if (link.single_access && link.access > 0) return res.redirect("https://url-shorter-sigma.vercel.app/404");
 
   link.access++;
   await prisma.link.update({
