@@ -37,14 +37,15 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   );
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
 
-  if (req.method == "OPTIONS") {
-    return res.status(200).json({ options: ["POST", "GET", "OPTIONS", "DELETE", "PUT"] });
-  }
   next();
 });
 
 /** Config app */
 app.use("/", routes);
+
+app.options("/", (req: Request, res: Response) => {
+  return res.status(200).json({ options: ["POST", "GET", "OPTIONS", "DELETE", "PUT"] });
+});
 
 /** Error Handling */
 app.use((req: Request, res: Response) => {
