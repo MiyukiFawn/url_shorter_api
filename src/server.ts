@@ -8,12 +8,12 @@ import Debuger from "./debuger";
 import routes from "./routes";
 import apiErrorHandler from "./middlewares/api_error_handler";
 import ApiError from "./errors/ApiError";
-import fs from "fs";
+// import fs from "fs";
 
-import YAML from "yaml";
+// import YAML from "yaml";
 
-const docsFile = fs.readFileSync("src/swagger.yaml", "utf8");
-const swaggerDocs = YAML.parse(docsFile);
+// const docsFile = fs.readFileSync("src/swagger.yaml", "utf8");
+// const swaggerDocs = YAML.parse(docsFile);
 
 const Debug = Debuger("Routes");
 const app = express();
@@ -52,7 +52,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 /** Define Swagger Documentation route */
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 /** Allow external applications to request the API's allowed options */
 app.options("/", (req: Request, res: Response) => res.end());
