@@ -1,5 +1,6 @@
 import "express-async-errors";
 import express, { Request, Response, NextFunction } from "express";
+import swaggerUi from "swagger-ui-express";
 import config from "./config";
 
 import Debuger from "./debuger";
@@ -7,6 +8,12 @@ import Debuger from "./debuger";
 import routes from "./routes";
 import apiErrorHandler from "./middlewares/api_error_handler";
 import ApiError from "./errors/ApiError";
+import fs from "fs";
+
+import YAML from "yaml";
+
+const docsFile = fs.readFileSync("src/swagger.yaml", "utf8");
+const swaggerDocs = YAML.parse(docsFile);
 
 const Debug = Debuger("Routes");
 const app = express();
@@ -20,6 +27,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
       `METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}], STATUS - [${res.statusCode}]`
     );
   });
+  console.log('\n');
+  
   next();
 });
 
@@ -42,12 +51,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-/** Config app */
-app.use("/", routes);
+/** Define Swagger Documentation route */
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.options("/", (req: Request, res: Response) => {
-  return res.status(200).json({ options: ["POST", "GET", "OPTIONS", "DELETE", "PUT"] });
-});
+/** Allow external applications to request the API's allowed options */
+app.options("/", (req: Request, res: Response) => res.end());
+
+/** Import routes from 'routes.ts' file */
+app.use("/", routes);
 
 /** Error Handling */
 app.use((req: Request, res: Response) => {
@@ -57,5 +68,5 @@ app.use(apiErrorHandler);
 
 /** Create the server */
 app.listen(config.server.port, () => {
-  Debug.info(`Server running on https://${config.server.hostname}:${config.server.port}`);
+  Debug.info(`Server running on port ${config.server.port}`);
 });

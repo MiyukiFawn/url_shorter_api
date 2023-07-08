@@ -10,6 +10,8 @@ const Debug = Debuger("Routes");
 const router = express.Router();
 
 /** --- ROUTES --- */
+router.get("/", (req, res) => res.redirect("/docs"));
+
 router.get("/links/:page?", get_links);
 router.get("/pages", get_pages);
 router.get("/:shortUrl", get_link);
