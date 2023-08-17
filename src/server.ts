@@ -14,6 +14,9 @@ import swaggerDocs from "./swagger.json";
 const Debug = Debuger("Routes");
 const app = express();
 
+/** Define Swagger Documentation route */
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 /** Debug the request */
 app.use((req: Request, res: Response, next: NextFunction) => {
   Debug.log(`METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}]`);
@@ -27,9 +30,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   
   next();
 });
-
-/** Define Swagger Documentation route */
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 /** Parse the request */
 app.use(express.urlencoded({ extended: false }));
