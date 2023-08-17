@@ -23,8 +23,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
       `METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}], STATUS - [${res.statusCode}]`
     );
   });
-  console.log('\n');
-  
+  console.log("\n");
+
   next();
 });
 
@@ -53,6 +53,9 @@ app.options("/", (req: Request, res: Response) => res.end());
 /** Define Swagger Documentation route */
 app.get("/docs-data", (req: Request, res: Response) => {
   res.status(200).json(swaggerDocs);
+});
+app.get("/docs", (req: Request, res: Response) => {
+  res.redirect("https://frostsh.vercel.app/docs");
 });
 
 /** Import routes from 'routes.ts' file */
