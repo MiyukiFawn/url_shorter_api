@@ -28,6 +28,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+/** Define Swagger Documentation route */
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 /** Parse the request */
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -46,9 +49,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
   next();
 });
-
-/** Define Swagger Documentation route */
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 /** Allow external applications to request the API's allowed options */
 app.options("/", (req: Request, res: Response) => res.end());
